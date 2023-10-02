@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 90 25% 98%; /* Baby powder */
+    --foreground: 204 24% 4%; /* Night */
+
+    --primary: 326 7% 54%; /* Taupe Grey */
+
+    --secondary: 342 96% 29%; /* Burgundy */
+
+    --muted: 169 61% 46%; /* Keppel */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 204 24% 4%;
+    --foreground: 90 25% 98%;
+
+    --primary: 169 61% 46%;
+
+    --secondary: 326 7% 54%;
+
+    --muted: 342 96% 29%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
