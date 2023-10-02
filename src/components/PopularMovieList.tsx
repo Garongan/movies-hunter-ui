@@ -4,12 +4,14 @@ import { Skeleton } from "./ui/skeleton";
 
 interface PopularMovieListProps {
   popularMovies: Movie[];
-  onImageClick: (movie: Movie["backdrop_path"]) => void;
+  onImageClick: (backdropPath: Movie["backdrop_path"], id: Movie["id"]) => void;
+  activePoster: number;
 }
 
 const PopularMovieList: React.FC<PopularMovieListProps> = ({
   popularMovies,
   onImageClick,
+  activePoster,
 }) => {
   const [renderedMovies, setRenderedMovies] = useState<Movie[]>([]);
 
@@ -38,7 +40,7 @@ const PopularMovieList: React.FC<PopularMovieListProps> = ({
     <div className="flex">
       {nextRenderedMovies.map((movie, index) => (
         <div
-          className="flex-none px-1 first:pl-0 last:pr-0 scale-90 transition-all hover:scale-95 hover:-translate-y-1.5"
+        className={`${index == activePoster ? 'scale-95 -translate-y-1.5' : ''} flex-none px-1 first:pl-0 last:pr-0 scale-90 transition-all hover:scale-95 hover:-translate-y-1.5`}
           key={index}
         >
           {movie.poster_path != null ? (
@@ -46,7 +48,7 @@ const PopularMovieList: React.FC<PopularMovieListProps> = ({
               className="rounded-md h-52 animateFadeAndSwipeDown"
               src={`${import.meta.env.VITE_BASEIMAGEURL}${movie.poster_path}`}
               alt={movie.title}
-              onClick={() => onImageClick(movie.backdrop_path)}
+              onClick={() => onImageClick(movie.backdrop_path, movie.id)}
             />
           ) : (
             <Skeleton className="h-full m-2" />

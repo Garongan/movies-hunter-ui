@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [activeNavbar, setActiveNavbar] = useState<string>("Now Playing");
   const [posterBG, setPosterBg] = useState<string>("");
   const [isImageLoaded, setIsImageLoaded] = useState(true); // State variable to track loading state
+  const [activePoster, setActivePoster] = useState<number>(0);
 
   useEffect(() => {
     getNowPlaying().then((result: Movie[]) => {
@@ -51,12 +52,16 @@ const App: React.FC = () => {
     );
   };
 
-  const handleImageClick = (movie_backdrop_path: string) => {
+  const handleImageClick = (
+    movie_backdrop_path: string,
+    activePoster: number
+  ) => {
     setIsImageLoaded(false);
     setPosterBg(movie_backdrop_path);
+    setActivePoster(activePoster);
     setTimeout(() => {
       setIsImageLoaded(true);
-    }, 1000);
+    }, 1500);
   };
 
   const handleImageLoad = () => {
@@ -66,18 +71,15 @@ const App: React.FC = () => {
   return (
     <>
       {/* backdrop start */}
-      {isImageLoaded ? (
-        <img
-          src={`https://image.tmdb.org/t/p/original${posterBG}`}
-          alt="Background"
-          onLoad={() => handleImageLoad}
-          className={`w-full h-full fixed object-cover z-0 ${
-            isImageLoaded ? "fadeIn" : ""
-          }`}
-        />
-      ) : (
-        <Skeleton className="w-full h-full" />
-      )}
+      {isImageLoaded && <Skeleton className="w-full h-full" />}
+      <img
+        src={`https://image.tmdb.org/t/p/original${posterBG}`}
+        alt="Background"
+        onLoad={() => handleImageLoad}
+        className={`w-full h-full fixed object-cover z-0 ${
+          isImageLoaded ? "fadeIn block" : "hidden"
+        }`}
+      />
       {/* backdrop end */}
       <div className="z-10 relative">
         <header className="container flex flex-row items-center flex-wrap py-5">
@@ -104,6 +106,7 @@ const App: React.FC = () => {
             <PopularMovieList
               popularMovies={popularMovies}
               onImageClick={handleImageClick}
+              activePoster={activePoster}
             />
           </div>
           <ScrollBar orientation="horizontal" />
