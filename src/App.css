@@ -15,21 +15,6 @@
   }
 }
 
-.animateBorderBottom {
-  animation: fadeBorderBottom 1s ease-in-out infinite alternate;
-  border-bottom: 2px solid transparent; /* Set the initial style of the border */
-}
-
-@keyframes fadeBorderBottom {
-  0%,
-  100% {
-    border-bottom: 2px solid transparent; /* Start and end with the same style */
-  }
-  50% {
-    border-bottom: 2px solid; /* Set the style at the midpoint of the animation */
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -41,22 +26,6 @@
 
 .fadeIn {
   animation: fadeIn 1s ease-in-out;
-}
-
-.bg-custom-image {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  mask-image: radial-gradient(
-    ellipse 50% 80% at 80% 55%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0.125) 65%,
-    rgba(0, 0, 0, 0.5)
-  );
-  mask-size: cover; /* Adjust the height of the clipped area */
-  -webkit-mask-size: cover;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
 }
 
 .input-style {

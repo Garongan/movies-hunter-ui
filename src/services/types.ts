@@ -1,5 +1,5 @@
 // types.ts
-export interface Movie {
+export interface MovieInterface {
   id: number;
   title: string;
   release_date: string;
@@ -7,4 +7,8 @@ export interface Movie {
   poster_path: string;
   backdrop_path: string;
   // ... other properties
+}
+
+export interface NavbarInterface {
+  name: string;
 }

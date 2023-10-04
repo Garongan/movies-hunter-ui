@@ -1,55 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { getNowPlaying, searchMovie } from "./services/TmdbApi";
 import "./App.css";
-import PopularMovieList from "./components/PopularMovieList";
-import { Movie } from "./services/types";
+import PopularMovieList from "./components/MovieList";
+import { MovieInterface } from "./services/types";
 import { Input } from "./components/ui/input";
 import { ScrollArea, ScrollBar } from "./components/ui/scroll-area";
-import { Skeleton } from "./components/ui/skeleton";
 
 const App: React.FC = () => {
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-  const navbar = [
-    { name: "Now Playing" },
-    { name: "Popular" },
-    { name: "Top Rated" },
-    { name: "Upcoming" },
-  ];
-  const [activeNavbar, setActiveNavbar] = useState<string>("Now Playing");
+  const [movieList, setMovieList] = useState<MovieInterface[]>([]);
   const [posterBG, setPosterBg] = useState<string>("");
-  const [isImageLoaded, setIsImageLoaded] = useState(true); // State variable to track loading state
+  const [isImageLoaded, setIsImageLoaded] = useState(false); // State variable to track loading state
   const [activePoster, setActivePoster] = useState<number>(0);
+  const [titlePage, setTitlePage] = useState<string>("Now Playing");
 
   useEffect(() => {
-    getNowPlaying().then((result: Movie[]) => {
-      setPopularMovies(result);
-      setPosterBg(result[0].backdrop_path);
+    getNowPlaying().then((result: MovieInterface[]) => {
+      setMovieList(result);
     });
   }, []);
 
   const search = async (query: string) => {
     if (query.length > 3) {
       const searchResults = await searchMovie(query);
-      setPopularMovies(searchResults);
+      setMovieList(searchResults);
+      setTitlePage("Search Results");
+      handleDefaultBackdrop(searchResults[0].backdrop_path);
     }
-  };
-
-  const Navbar: React.FC = () => {
-    return (
-      <ul className="list-none flex flex-row">
-        {navbar.map((item, id) => (
-          <li
-            key={id}
-            className={`${
-              activeNavbar == item.name ? "animateBorderBottom" : ""
-            } cursor-pointer me-5`}
-            onClick={() => setActiveNavbar(item.name)}
-          >
-            {item.name}
-          </li>
-        ))}
-      </ul>
-    );
   };
 
   const handleImageClick = (
@@ -65,32 +41,52 @@ const App: React.FC = () => {
   };
 
   const handleImageLoad = () => {
-    setIsImageLoaded(false);
+    setIsImageLoaded(true);
   };
+
+  const handleDefaultBackdrop = (backdrop_path: string) => {
+    setIsImageLoaded(false);
+    setPosterBg(backdrop_path);
+    setTimeout(() => {
+      setIsImageLoaded(true);
+    }, 500);
+  };
+
+  const getBackdropSrc = () => {
+    if (posterBG == null)
+      return 'public/3747372.jpg';
+    else return `https://image.tmdb.org/t/p/original${posterBG}`;
+  };
+
+  const backdropSrc: string = getBackdropSrc();
 
   return (
     <>
       {/* backdrop start */}
-      {isImageLoaded && <Skeleton className="w-full h-full" />}
       <img
-        src={`https://image.tmdb.org/t/p/original${posterBG}`}
+        src={backdropSrc}
         alt="Background"
-        onLoad={() => handleImageLoad}
-        className={`w-full h-full fixed object-cover z-0 ${
+        onLoad={handleImageLoad}
+        className={`w-full h-full max-h-screen fixed object-cover z-0 ${
           isImageLoaded ? "fadeIn block" : "hidden"
         }`}
       />
       {/* backdrop end */}
       <div className="z-10 relative">
-        <header className="container flex flex-row items-center flex-wrap py-5">
-          <h1 className="font-medium text-xl tracking-tight basis-1/3">
+        <header className="container flex flex-row items-center flex-wrap pt-6 pb-10 bg-gradient-to-b from-background/50 to-background-transparent">
+          <div className="font-medium text-xl tracking-tight basis-1/3 flex items-center justify-start gap-1">
             <span className="bg-foreground text-background p-1.5 rounded">
               Movies
-            </span>{" "}
+            </span>
             Hunter
-          </h1>
-          <div className="items-center flex justify-end basis-2/3">
-            <Navbar />
+          </div>
+          <div className="items-center flex justify-end basis-2/3 gap-4">
+            <div className="text-lg font-medium">
+              <span className="bg-foreground text-background p-1.5 rounded">
+                Movie
+              </span>{" "}
+              {titlePage}
+            </div>
             <Input
               type="text"
               placeholder="🔍 Search Movies..."
@@ -102,16 +98,16 @@ const App: React.FC = () => {
       </div>
       <div className="container absolute bottom-0">
         <ScrollArea className="rounded-md py-6">
-          <div className="flex">
-            <PopularMovieList
-              popularMovies={popularMovies}
-              onImageClick={handleImageClick}
-              activePoster={activePoster}
-            />
-          </div>
+          <PopularMovieList
+            movieList={movieList}
+            onImageClick={handleImageClick}
+            activePoster={activePoster}
+            setDefaultBackdrop={handleDefaultBackdrop}
+          />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
+      
     </>
   );
 };
