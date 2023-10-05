@@ -11,7 +11,61 @@ export const getNowPlaying = async (): Promise<MovieInterface[]> => {
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
-      return response.data.results as MovieInterface[];
+      return response.data.results.slice(0, 20) as MovieInterface[];
+    } else {
+      // Handle the case where 'results' doesn't exist as expected
+      throw new Error("Unexpected API response format");
+    }
+  } catch (error) {
+    // Handle any errors that may occur during the request
+    throw new Error("Failed to fetch movie list");
+  }
+};
+
+export const getPopular = async (): Promise<MovieInterface[]> => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${baseURL}/movie/popular?api_key=${apiKey}`
+    );
+    // Check if 'results' exists in the response data
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results.slice(0, 20) as MovieInterface[];
+    } else {
+      // Handle the case where 'results' doesn't exist as expected
+      throw new Error("Unexpected API response format");
+    }
+  } catch (error) {
+    // Handle any errors that may occur during the request
+    throw new Error("Failed to fetch movie list");
+  }
+};
+
+export const getTopRated = async (): Promise<MovieInterface[]> => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${baseURL}/movie/top_rated?api_key=${apiKey}`
+    );
+    // Check if 'results' exists in the response data
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results.slice(0, 20) as MovieInterface[];
+    } else {
+      // Handle the case where 'results' doesn't exist as expected
+      throw new Error("Unexpected API response format");
+    }
+  } catch (error) {
+    // Handle any errors that may occur during the request
+    throw new Error("Failed to fetch movie list");
+  }
+};
+
+export const getUpcoming = async (): Promise<MovieInterface[]> => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${baseURL}/movie/upcoming?api_key=${apiKey}`
+    );
+    // Check if 'results' exists in the response data
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results.slice(0, 20) as MovieInterface[];
     } else {
       // Handle the case where 'results' doesn't exist as expected
       throw new Error("Unexpected API response format");
@@ -29,7 +83,7 @@ export const searchMovie = async (query: string): Promise<MovieInterface[]> => {
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
-      return response.data.results as MovieInterface[];
+      return response.data.results.slice(0, 20) as MovieInterface[];
     } else {
       // Handle the case where 'results' doesn't exist as expected
       throw new Error("Unexpected API response format");

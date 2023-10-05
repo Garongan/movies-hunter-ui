@@ -1,6 +1,8 @@
 import React, { ReactEventHandler, useEffect, useState } from "react";
 import { MovieInterface } from "../services/types";
 import { Skeleton } from "./ui/skeleton";
+import { Card, CardFooter } from "./ui/card";
+
 
 interface MovieListProps {
   movieList: MovieInterface[];
@@ -62,23 +64,30 @@ const PopularMovieList: React.FC<MovieListProps> = ({
       {nextRenderedMovies.map((movie, index) => (
         <div
           className={`${
-            index === activePoster ? "scale-95 -translate-y-[0.3rem]" : ""
-          } flex-none first:pl-0 last:pr-0 transition-all scale-90 hover:scale-95 hover:-translate-y-[0.3rem] w-28`}
+            index === activePoster
+              ? "scale-95 -translate-y-[0.3rem] filter-none"
+              : ""
+          } flex-none first:pl-0 last:pr-0 transition-all scale-90 hover:scale-95 hover:-translate-y-[0.3rem] w-28 brightness-50`}
           key={index}
         >
-          {movie.poster_path != null ? (
-            <img
-              className="rounded-md h-44 object-center animateFadeAndSwipeDown"
-              src={`${import.meta.env.VITE_BASEIMAGEURL}${movie.poster_path}`}
-              alt={movie.title}
-              onClick={() => onImageClick(movie.backdrop_path, index)}
-              onLoad={
-                index === activePoster ? handleDefaultBackdrop : undefined
-              }
-            />
-          ) : (
-            <Skeleton className="h-full w-full" />
-          )}
+          <Card className="animateFadeAndSwipeDown">
+            {movie.poster_path != null ? (
+              <img
+                className="rounded-md h-44 object-center"
+                src={`${import.meta.env.VITE_BASEIMAGEURL}${movie.poster_path}`}
+                alt={movie.title}
+                onClick={() => onImageClick(movie.backdrop_path, index)}
+                onLoad={
+                  index === activePoster ? handleDefaultBackdrop : undefined
+                }
+              />
+            ) : (
+              <Skeleton className="h-full w-full" />
+            )}
+            <CardFooter>
+              
+            </CardFooter>
+          </Card>
         </div>
       ))}
     </div>

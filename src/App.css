@@ -28,7 +28,43 @@
   animation: fadeIn 1s ease-in-out;
 }
 
-.input-style {
+/* Define the initial styles for the element */
+.activeNavbar {
+  position: relative;
+}
+
+/* Define the animation */
+@keyframes borderAnimation {
+  0% {
+    width: 0; /* Initial width of the border */
+    left: 0%; /* Start position (centered) */
+    opacity: 1; /* Fully visible */
+}
+50% {
+    width: 100%;
+    left: 0; /* Fully stretched */
+    opacity: 1; /* Fully visible */
+}
+100% {
+    width: 100%;
+    left: 0; /* Fully stretched */
+    opacity: 0; /* Fully transparent */
+}
+}
+
+/* Apply the animation to the border-bottom property */
+.activeNavbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 2px; /* Thickness of the border */
+  background-color: hsl(204, 24%, 4%); /* Color of the border */
+  border-radius: 1rem; /* Border radius */
+  animation: borderAnimation 1s ease infinite; /* Animation properties */
+}
+
+.inset-shadow {
   box-shadow: inset 5px 5px 10px hsl(169, 61%, 46%),
     inset -5px -5px 10px hsl(90, 25%, 98%);
 }
