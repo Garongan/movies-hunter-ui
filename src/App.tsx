@@ -30,7 +30,7 @@ const App: React.FC = () => {
   ];
   const [posterBG, setPosterBg] = useState<string>("");
   const [isImageLoaded, setIsImageLoaded] = useState(false); // State variable to track loading state
-  const [activePoster, setActivePoster] = useState<number>(7);
+  const [activePoster, setActivePoster] = useState<number>(0);
   const [titlePage, setTitlePage] = useState<string>("Now Playing");
 
   useEffect(() => {

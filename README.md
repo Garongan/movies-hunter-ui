@@ -1,3 +1,22 @@
+# Recreate Movie Hunter with ui.shacdn
+
+Movies Hunter UI is a web application that allows you to search for movies and access detailed information about them. It's built using the React library, Vite framework, Tailwind Css, Ui Shadcn, and Typescript, the website use TMDB (The Movie Database) API to fetch movie data.
+
+# Screenshot
+
+![Movies Hunter UI Screenshot](screenshot.png)
+
+## Features
+
+- Search for movies by title.
+- View detailed information about a movie, including release date and rating.
+- Discover now playing movie in teather, popular movies now, top-rated movies all of time, and upcoming movies.
+- Responsive design for a seamless experience on desktop and mobile devices.
+
+## Demo
+
+You can try out Movies Hunter UI by visiting [Demo Link](https://garongan.github.io/movies-hunter-ui).
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

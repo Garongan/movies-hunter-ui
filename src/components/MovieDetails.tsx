@@ -14,21 +14,32 @@ interface MovieDetailsProps {
 }
 
 const MovieDetails: FC<MovieDetailsProps> = ({ movie, activeIndex }) => {
-  // Check if movie array is empty or activeIndex is out of range
-  if (movie.length === 0 || activeIndex < 0 || activeIndex >= movie.length) {
-    return <div>No movie found</div>; // Or any other message or component you want to render for invalid data
+  let filteredMovie: MovieInterface | undefined; // Assuming MovieType is the type of your movie objects
+
+  if (activeIndex === 0) {
+    filteredMovie = movie[0];
+  } else {
+    filteredMovie = movie.find((item) => item.id == activeIndex);
   }
 
   return (
     <Card className="max-w-full rounded-md bg-background outside-shadow">
-      <CardHeader>
-        <CardTitle>{movie[activeIndex].title}</CardTitle>
-        <CardDescription>
-          {movie[activeIndex].vote_average} ({movie[activeIndex].vote_count}) •{" "}
-          {movie[activeIndex].release_date}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>{movie[activeIndex].overview}</CardContent>
+      {filteredMovie ? (
+        <>
+          <CardHeader>
+            <CardTitle>{filteredMovie.title}</CardTitle>
+            <CardDescription>
+              {filteredMovie.vote_average} ({filteredMovie.vote_count}) •{" "}
+              {filteredMovie.release_date}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>{filteredMovie.overview}</CardContent>
+        </>
+      ) : (
+        <CardHeader>
+          <CardTitle>Not Found</CardTitle>
+        </CardHeader>
+      )}
     </Card>
   );
 };

@@ -74,7 +74,7 @@ const MovieList: React.FC<MovieListProps> = ({
                 className="rounded-md h-32 object-center"
                 src={`${import.meta.env.VITE_BASEIMAGEURL}${movie.poster_path}`}
                 alt={movie.title}
-                onClick={() => onImageClick(movie.backdrop_path, index)}
+                onClick={() => onImageClick(movie.backdrop_path, movie.id)}
                 onLoad={
                   index === activePoster ? handleDefaultBackdrop : undefined
                 }
