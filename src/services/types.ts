@@ -4,9 +4,10 @@ export interface MovieInterface {
   title: string;
   release_date: string;
   vote_average: number;
+  vote_count: number
   poster_path: string;
   backdrop_path: string;
-  // ... other properties
+  overview: string;
 }
 
 export interface NavbarInterface {

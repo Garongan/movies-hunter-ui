@@ -1,20 +1,18 @@
 import React, { ReactEventHandler, useEffect, useState } from "react";
 import { MovieInterface } from "../services/types";
 import { Skeleton } from "./ui/skeleton";
-import { Card, CardFooter } from "./ui/card";
-
 
 interface MovieListProps {
   movieList: MovieInterface[];
   onImageClick: (
     backdropPath: MovieInterface["backdrop_path"],
-    id: MovieInterface["id"]
+    index: number
   ) => void;
   activePoster: number;
   setDefaultBackdrop: (bacdropPath: MovieInterface["backdrop_path"]) => void;
 }
 
-const PopularMovieList: React.FC<MovieListProps> = ({
+const MovieList: React.FC<MovieListProps> = ({
   movieList,
   onImageClick,
   activePoster,
@@ -60,20 +58,20 @@ const PopularMovieList: React.FC<MovieListProps> = ({
   };
 
   return (
-    <div className="flex gap-x-2">
+    <div className="flex p-3">
       {nextRenderedMovies.map((movie, index) => (
         <div
           className={`${
             index === activePoster
-              ? "scale-95 -translate-y-[0.3rem] filter-none"
+              ? "-translate-y-[0.2rem] scale-105 filter-none"
               : ""
-          } flex-none first:pl-0 last:pr-0 transition-all scale-90 hover:scale-95 hover:-translate-y-[0.3rem] w-28 brightness-50`}
+          } flex-none transition-all hover:-translate-y-[0.2rem] hover:duration-300 hover:scale-105 w-24 brightness-50`}
           key={index}
         >
-          <Card className="animateFadeAndSwipeDown">
+          <div className="animateFadeAndSwipeDown">
             {movie.poster_path != null ? (
               <img
-                className="rounded-md h-44 object-center"
+                className="rounded-md h-32 object-center"
                 src={`${import.meta.env.VITE_BASEIMAGEURL}${movie.poster_path}`}
                 alt={movie.title}
                 onClick={() => onImageClick(movie.backdrop_path, index)}
@@ -84,14 +82,11 @@ const PopularMovieList: React.FC<MovieListProps> = ({
             ) : (
               <Skeleton className="h-full w-full" />
             )}
-            <CardFooter>
-              
-            </CardFooter>
-          </Card>
+          </div>
         </div>
       ))}
     </div>
   );
 };
 
-export default PopularMovieList;
+export default MovieList;

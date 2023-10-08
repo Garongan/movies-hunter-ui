@@ -7,11 +7,12 @@ import {
   searchMovie,
 } from "./services/TmdbApi";
 import "./App.css";
-import PopularMovieList from "./components/MovieList";
 import { MovieInterface } from "./services/types";
 import { ScrollArea, ScrollBar } from "./components/ui/scroll-area";
 import { BgImage } from "./components/BgImage";
 import { Header } from "./layouts/Header";
+import MovieList from "./components/MovieList";
+import MovieDetails from "./components/MovieDetails";
 import {
   Accordion,
   AccordionContent,
@@ -29,7 +30,7 @@ const App: React.FC = () => {
   ];
   const [posterBG, setPosterBg] = useState<string>("");
   const [isImageLoaded, setIsImageLoaded] = useState(false); // State variable to track loading state
-  const [activePoster, setActivePoster] = useState<number>(0);
+  const [activePoster, setActivePoster] = useState<number>(7);
   const [titlePage, setTitlePage] = useState<string>("Now Playing");
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const App: React.FC = () => {
   };
 
   const handleTitlePageClick = (name: string) => {
+    setActivePoster(0);
     setTitlePage(name);
   };
 
@@ -112,34 +114,46 @@ const App: React.FC = () => {
       />
       {/* backdrop end */}
       {/* header start */}
-      <div className="z-10 relative bg-gradient-to-b from-background/75 to-background-transparent pt-6 pb-16">
-        <Header
-          navbar={navbar}
-          handleTitlePageClick={handleTitlePageClick}
-          titlePage={titlePage}
-          search={search}
-        />
+      <div className="z-10 relative">
+        <div className="py-3 bg-background shadow-xl">
+          <Header
+            navbar={navbar}
+            handleTitlePageClick={handleTitlePageClick}
+            titlePage={titlePage}
+            search={search}
+          />
+        </div>
       </div>
       {/* header end */}
-      <div className="container absolute inset-x-0 bottom-0">
-        <ScrollArea className="rounded-md py-6">
-          <PopularMovieList
-            movieList={movieList}
-            onImageClick={handleImageClick}
-            activePoster={activePoster}
-            setDefaultBackdrop={handleDefaultBackdrop}
-          />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-        <Accordion type="single" collapsible className="">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Is it accessible?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
+      <div className="absolute z-10 bottom-0 inset-x-0 w-3/4 container">
+        <Accordion type="single" collapsible className="py-6">
+          <AccordionItem value="movie-details" className="relative top-3">
+            <AccordionTrigger
+              className={`justify-center bg-background w-12 rounded-t-lg mx-auto ${
+                isImageLoaded ? "" : "hidden"
+              }`}
+            />
+            {/* movie details start */}
+            <AccordionContent className="bg-background rounded-t-lg pb-3">
+              <div className="container pt-6">
+                <MovieDetails movie={movieList} activeIndex={activePoster} />
+              </div>
             </AccordionContent>
           </AccordionItem>
+          {/* movie list start */}
+          <ScrollArea className="bg-background rounded-lg">
+            <MovieList
+              movieList={movieList}
+              onImageClick={handleImageClick}
+              activePoster={activePoster}
+              setDefaultBackdrop={handleDefaultBackdrop}
+            />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          {/* movie list end */}
         </Accordion>
       </div>
+      {/* movie details end */}
     </>
   );
 };

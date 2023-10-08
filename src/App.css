@@ -39,17 +39,17 @@
     width: 0; /* Initial width of the border */
     left: 0%; /* Start position (centered) */
     opacity: 1; /* Fully visible */
-}
-50% {
+  }
+  50% {
     width: 100%;
     left: 0; /* Fully stretched */
     opacity: 1; /* Fully visible */
-}
-100% {
+  }
+  100% {
     width: 100%;
     left: 0; /* Fully stretched */
     opacity: 0; /* Fully transparent */
-}
+  }
 }
 
 /* Apply the animation to the border-bottom property */
@@ -59,12 +59,16 @@
   bottom: 0;
   left: 50%;
   height: 2px; /* Thickness of the border */
-  background-color: hsl(204, 24%, 4%); /* Color of the border */
+  background-color: hsl(var(--foreground)); /* Color of the border */
   border-radius: 1rem; /* Border radius */
   animation: borderAnimation 1s ease infinite; /* Animation properties */
 }
 
-.inset-shadow {
-  box-shadow: inset 5px 5px 10px hsl(169, 61%, 46%),
-    inset -5px -5px 10px hsl(90, 25%, 98%);
+.inset-shadow:focus {
+  box-shadow: inset 5px 5px 10px hsl(var(--muted)),
+    inset -5px -5px 10px hsl(var(--background));
+}
+
+.outside-shadow {
+  box-shadow: 5px 5px 10px hsl(var(--foreground)), -5px -5px 10px hsl(var(--background));
 }

@@ -1,7 +1,8 @@
 import { Navbar } from "@/components/Navbar";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { NavbarInterface } from "@/services/types";
-import { FC,} from "react";
+import { FC } from "react";
 
 interface HeaderProps {
   navbar: NavbarInterface[];
@@ -17,14 +18,14 @@ export const Header: FC<HeaderProps> = ({
   search,
 }) => {
   return (
-    <header className="container flex flex-row items-center flex-wrap">
-      <div className="font-bold text-xl basis-1/3 flex items-center justify-start gap-1">
+    <header className="container flex flex-row items-center flex-wrap gap-4 md:gap-0">
+      <div className="font-bold text-xl items-center gap-1 justify-center basis-full md:basis-1/3 flex md:justify-start">
         <span className="bg-foreground p-1.5 rounded text-background">
           Movies
         </span>
         Hunter
       </div>
-      <div className="items-center flex justify-end basis-2/3 gap-4">
+      <div className="items-center flex justify-center gap-4 h-5 basis-full md:basis-2/3 md:justify-end">
         <div className="gap-3 flex items-center">
           <Navbar
             navbar={navbar}
@@ -32,12 +33,15 @@ export const Header: FC<HeaderProps> = ({
             titlePage={titlePage}
           />
         </div>
-        <Input
-          type="text"
-          placeholder="🔍 Search Movies..."
-          className="w-48 transition-all text-sm text-foreground bg-background border-0 inset-shadow rounded-lg focus:w-64 focus:outline-0"
-          onChange={(e) => search(e.target.value)}
-        />
+        <Separator orientation="vertical" />
+        <div className="relative">
+          <span className="absolute text-2xl top-1 z-0">🔍</span>
+          <Input
+            type="text"
+            className="w-1 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-64 focus:outline-0 focus:bg-background"
+            onChange={(e) => search(e.target.value)}
+          />
+        </div>
       </div>
     </header>
   );
