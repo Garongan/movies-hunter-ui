@@ -32,6 +32,7 @@ const App: React.FC = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false); // State variable to track loading state
   const [activePoster, setActivePoster] = useState<number>(0);
   const [titlePage, setTitlePage] = useState<string>("Now Playing");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     switch (titlePage) {
@@ -64,6 +65,7 @@ const App: React.FC = () => {
       const searchResults = await searchMovie(query);
       setMovieList(searchResults);
       setTitlePage("Search Results");
+      setSearchValue(query);
       handleDefaultBackdrop(searchResults[0].backdrop_path);
     }
   };
@@ -121,6 +123,7 @@ const App: React.FC = () => {
             handleTitlePageClick={handleTitlePageClick}
             titlePage={titlePage}
             search={search}
+            searchValue={searchValue}
           />
         </div>
       </div>
@@ -141,7 +144,7 @@ const App: React.FC = () => {
             </AccordionContent>
           </AccordionItem>
           {/* movie list start */}
-          <ScrollArea className="bg-background rounded-lg">
+          <ScrollArea className="bg-background rounded-lg p-3">
             <MovieList
               movieList={movieList}
               onImageClick={handleImageClick}

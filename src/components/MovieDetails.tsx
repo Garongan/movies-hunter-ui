@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { FC } from "react";
+import { ScrollBar, ScrollArea } from "./ui/scroll-area";
 
 interface MovieDetailsProps {
   movie: MovieInterface[];
@@ -23,17 +24,26 @@ const MovieDetails: FC<MovieDetailsProps> = ({ movie, activeIndex }) => {
   }
 
   return (
-    <Card className="max-w-full rounded-md bg-background outside-shadow">
+    <Card className="max-w-full my-3 rounded-md bg-background outside-shadow">
       {filteredMovie ? (
         <>
           <CardHeader>
             <CardTitle>{filteredMovie.title}</CardTitle>
-            <CardDescription>
-              {filteredMovie.vote_average} ({filteredMovie.vote_count}) •{" "}
+            <div className="text-md">Rate:</div>
+            <CardDescription className="h-5 flex items-center gap-2">
+              <img src="src/assets/icon-tmdb.svg" alt="" className="h-full" />
+              <div className="font-bold">{filteredMovie.vote_average}</div> (
+              {filteredMovie.vote_count}) •{" release-date: "}
               {filteredMovie.release_date}
             </CardDescription>
           </CardHeader>
-          <CardContent>{filteredMovie.overview}</CardContent>
+          <ScrollArea className="h-32 pb-6">
+              <CardContent>
+                <div className="text-md">Overview:</div>
+                {filteredMovie.overview}
+              </CardContent>
+              <ScrollBar orientation="vertical" />
+            </ScrollArea>
         </>
       ) : (
         <CardHeader>

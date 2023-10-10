@@ -9,6 +9,7 @@ interface HeaderProps {
   handleTitlePageClick: (name: NavbarInterface["name"]) => void;
   titlePage: string;
   search: (query: string) => void;
+  searchValue: string;
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -16,6 +17,7 @@ export const Header: FC<HeaderProps> = ({
   handleTitlePageClick,
   titlePage,
   search,
+  searchValue,
 }) => {
   return (
     <header className="container flex flex-row items-center flex-wrap gap-4 md:gap-0">
@@ -27,11 +29,15 @@ export const Header: FC<HeaderProps> = ({
       </div>
       <div className="items-center flex justify-center gap-4 h-5 basis-full md:basis-2/3 md:justify-end">
         <div className="gap-3 flex items-center">
-          <Navbar
-            navbar={navbar}
-            onTitlePageClick={handleTitlePageClick}
-            titlePage={titlePage}
-          />
+          {titlePage == "Search Results" ? (
+            <div className="text-sm font-medium activeNavbar p-1.5">Search Results: <span className="font-bold">{searchValue}</span></div>
+          ) : (
+            <Navbar
+              navbar={navbar}
+              onTitlePageClick={handleTitlePageClick}
+              titlePage={titlePage}
+            />
+          )}
         </div>
         <Separator orientation="vertical" />
         <div className="relative">
