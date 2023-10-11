@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { MovieInterface } from "./types";
+import { debounce } from "lodash";
 
 const baseURL: string = import.meta.env.VITE_BASE_URL as string;
 const apiKey: string = import.meta.env.VITE_API_KEY as string;
@@ -76,7 +77,7 @@ export const getUpcoming = async (): Promise<MovieInterface[]> => {
   }
 };
 
-export const searchMovie = async (query: string): Promise<MovieInterface[]> => {
+const searchMovie = async (query: string): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
       `${baseURL}/search/movie?query=${query}&api_key=${apiKey}`
@@ -93,3 +94,5 @@ export const searchMovie = async (query: string): Promise<MovieInterface[]> => {
     throw new Error("Failed to search for movies");
   }
 };
+
+export const debounceSearch = debounce(searchMovie, 500)

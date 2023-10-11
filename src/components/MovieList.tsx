@@ -62,7 +62,7 @@ const MovieList: React.FC<MovieListProps> = ({
   };
 
   return (
-    <div className="flex py-3 gap-x-3">
+    <div className="flex py-4 gap-x-3">
       {nextRenderedMovies.map((movie, index) => (
         <div
           className={`${

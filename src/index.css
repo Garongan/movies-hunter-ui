@@ -39,11 +39,11 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 60%;
+  font-size: 70%;
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 80% !important;
+    font-size: 100% !important;
   }
 }

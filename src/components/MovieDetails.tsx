@@ -24,7 +24,7 @@ const MovieDetails: FC<MovieDetailsProps> = ({ movie, activeIndex }) => {
   }
 
   return (
-    <Card className="max-w-full my-3 rounded-md bg-background outside-shadow">
+    <Card className="max-w-full my-3 rounded-lg bg-background shadow-xl">
       {filteredMovie ? (
         <>
           <CardHeader>

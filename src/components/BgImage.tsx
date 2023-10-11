@@ -16,8 +16,8 @@ export const BgImage: FC<BgImageProps> = ({
       src={backdropSrc}
       alt="Background"
       onLoad={handleImageLoad}
-      className={`w-full h-full object-cover z-0 fixed pt-6 ${
-        isImageLoaded ? "fadeIn block" : "hidden"
+      className={`w-full h-[28rem] object-cover ${
+        isImageLoaded ? "fadeIn visible" : "invisible"
       }`}
     />
   );

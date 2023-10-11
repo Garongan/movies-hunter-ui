@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
+  debounceSearch,
   getNowPlaying,
   getPopular,
   getTopRated,
   getUpcoming,
-  searchMovie,
 } from "./services/TmdbApi";
 import "./App.css";
 import { MovieInterface } from "./services/types";
@@ -13,12 +13,6 @@ import { BgImage } from "./components/BgImage";
 import { Header } from "./layouts/Header";
 import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const App: React.FC = () => {
   const [movieList, setMovieList] = useState<MovieInterface[]>([]);
@@ -62,7 +56,7 @@ const App: React.FC = () => {
 
   const search = async (query: string) => {
     if (query.length > 3) {
-      const searchResults = await searchMovie(query);
+      const searchResults = (await debounceSearch(query)) ?? [];
       setMovieList(searchResults);
       setTitlePage("Search Results");
       setSearchValue(query);
@@ -108,43 +102,28 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* backdrop start */}
-      <BgImage
-        backdropSrc={backdropSrc}
-        handleImageLoad={handleImageLoad}
-        isImageLoaded={isImageLoaded}
-      />
-      {/* backdrop end */}
       {/* header start */}
-      <div className="z-10 relative">
-        <div className="py-3 bg-background shadow-xl">
-          <Header
-            navbar={navbar}
-            handleTitlePageClick={handleTitlePageClick}
-            titlePage={titlePage}
-            search={search}
-            searchValue={searchValue}
-          />
-        </div>
+      <div className="py-6 bg-background shadow-xl relative z-10">
+        <Header
+          navbar={navbar}
+          handleTitlePageClick={handleTitlePageClick}
+          titlePage={titlePage}
+          search={search}
+          searchValue={searchValue}
+        />
       </div>
       {/* header end */}
-      <div className="absolute z-10 bottom-0 inset-x-0 w-3/4 container">
-        <Accordion type="single" collapsible className="py-6">
-          <AccordionItem value="movie-details" className="relative top-3">
-            <AccordionTrigger
-              className={`justify-center bg-background w-12 rounded-t-lg mx-auto ${
-                isImageLoaded ? "" : "hidden"
-              }`}
-            />
-            {/* movie details start */}
-            <AccordionContent className="bg-background rounded-t-lg pb-3">
-              <div className="container pt-6">
-                <MovieDetails movie={movieList} activeIndex={activePoster} />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+      <div className="relative">
+        {/* backdrop start */}
+        <BgImage
+          backdropSrc={backdropSrc}
+          handleImageLoad={handleImageLoad}
+          isImageLoaded={isImageLoaded}
+        />
+        {/* backdrop end */}
+        <div className="absolute py-6 -bottom-28 inset-x-0 container">
           {/* movie list start */}
-          <ScrollArea className="bg-background rounded-lg p-3">
+          <ScrollArea className="bg-background rounded-lg px-4 shadow-xl">
             <MovieList
               movieList={movieList}
               onImageClick={handleImageClick}
@@ -154,9 +133,13 @@ const App: React.FC = () => {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
           {/* movie list end */}
-        </Accordion>
+        </div>
       </div>
-      {/* movie details end */}
+      {/* movie details-start */}
+      <div className="container pt-28 py-6">
+        <MovieDetails movie={movieList} activeIndex={activePoster} />
+      </div>
+      {/* movie details-end */}
     </>
   );
 };

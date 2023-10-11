@@ -44,7 +44,7 @@ export const Header: FC<HeaderProps> = ({
           <span className="absolute text-2xl top-1 z-0">🔍</span>
           <Input
             type="text"
-            className="w-1 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-64 focus:outline-0 focus:bg-background"
+            className="w-2 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-48 md:focus:w-64 focus:outline-0 focus:bg-background"
             onChange={(e) => search(e.target.value)}
           />
         </div>
