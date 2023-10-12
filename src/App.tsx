@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {
   debounceSearch,
+  getGenres,
   getNowPlaying,
   getPopular,
   getTopRated,
   getUpcoming,
 } from "./services/TmdbApi";
 import "./App.css";
-import { MovieInterface } from "./services/types";
+import { MovieGenre, MovieInterface } from "./services/types";
 import { ScrollArea, ScrollBar } from "./components/ui/scroll-area";
 import { BgImage } from "./components/BgImage";
 import { Header } from "./layouts/Header";
 import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
+import { Genres } from "./components/Genres";
 
 const App: React.FC = () => {
   const [movieList, setMovieList] = useState<MovieInterface[]>([]);
+  const [genres, setGenres] = useState<MovieGenre[]>([]);
   const navbar = [
     { name: "Now Playing" },
     { name: "Popular" },
@@ -52,6 +55,9 @@ const App: React.FC = () => {
         });
         break;
     }
+    getGenres().then((result: MovieGenre[]) => {
+      setGenres(result);
+    });
   }, [titlePage]);
 
   const search = async (query: string) => {
@@ -100,6 +106,18 @@ const App: React.FC = () => {
 
   const backdropSrc: string = getBackdropSrc();
 
+  let filteredMovie: MovieInterface[] = []; // Initialize as an empty array
+
+  if (activePoster === 0) {
+    filteredMovie = [movieList[0]]; // Assign an array with a single object
+  } else {
+    const foundMovie = movieList.find((item) => item.id === activePoster);
+    if (foundMovie) {
+      filteredMovie = [foundMovie]; // Assign an array with the found object
+    }
+    // You might want to handle the case where foundMovie is undefined (no movie found) here
+  }
+
   return (
     <>
       {/* header start */}
@@ -136,10 +154,20 @@ const App: React.FC = () => {
         </div>
       </div>
       {/* movie details-start */}
-      <div className="container pt-28 py-6">
-        <MovieDetails movie={movieList} activeIndex={activePoster} />
+      <div className="container pt-28">
+        <MovieDetails filteredMovie={filteredMovie} />
       </div>
       {/* movie details-end */}
+      {/* genres start */}
+      <div className="container py-6 flex flex-wrap justify-center gap-4">
+        <Genres genres={genres} filteredMovie={filteredMovie} />
+      </div>
+      {/* genres end */}
+      {/* footer start */}
+      <footer className="py-6 text-center bg-foreground text-background">
+        Created By Alvindo Tri Jatmiko @2023
+      </footer>
+      {/* footer end */}
     </>
   );
 };

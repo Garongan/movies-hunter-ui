@@ -14,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   return navbar.map((item, index) => {
     return (
-      <div className={`text-sm font-medium p-1.5 ${titlePage == item.name ? 'activeNavbar' : ''}`} key={index}>
+      <div className={`font-medium p-1.5 ${titlePage == item.name ? 'activeNavbar' : ''}`} key={index}>
         <button onClick={() => onTitlePageClick(item.name)}>{item.name}</button>
       </div>
     );

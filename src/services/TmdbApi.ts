@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { MovieInterface } from "./types";
+import { MovieGenre, MovieInterface } from "./types";
 import { debounce } from "lodash";
 
 const baseURL: string = import.meta.env.VITE_BASE_URL as string;
@@ -8,7 +8,12 @@ const apiKey: string = import.meta.env.VITE_API_KEY as string;
 export const getNowPlaying = async (): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${baseURL}/movie/now_playing?api_key=${apiKey}`
+      `${baseURL}/movie/now_playing`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
@@ -26,7 +31,12 @@ export const getNowPlaying = async (): Promise<MovieInterface[]> => {
 export const getPopular = async (): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${baseURL}/movie/popular?api_key=${apiKey}`
+      `${baseURL}/movie/popular`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
@@ -44,7 +54,12 @@ export const getPopular = async (): Promise<MovieInterface[]> => {
 export const getTopRated = async (): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${baseURL}/movie/top_rated?api_key=${apiKey}`
+      `${baseURL}/movie/top_rated`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
@@ -62,7 +77,12 @@ export const getTopRated = async (): Promise<MovieInterface[]> => {
 export const getUpcoming = async (): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${baseURL}/movie/upcoming?api_key=${apiKey}`
+      `${baseURL}/movie/upcoming`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
@@ -80,7 +100,12 @@ export const getUpcoming = async (): Promise<MovieInterface[]> => {
 const searchMovie = async (query: string): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${baseURL}/search/movie?query=${query}&api_key=${apiKey}`
+      `${baseURL}/search/movie?query=${query}`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
     );
     // Check if 'results' exists in the response data
     if (response.data && Array.isArray(response.data.results)) {
@@ -95,4 +120,27 @@ const searchMovie = async (query: string): Promise<MovieInterface[]> => {
   }
 };
 
-export const debounceSearch = debounce(searchMovie, 500)
+export const debounceSearch = debounce(searchMovie, 500);
+
+export const getGenres = async (): Promise<MovieGenre[]> => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${baseURL}/genre/movie/list`,
+      {
+        params: {
+          api_key: apiKey,
+        },
+      }
+    );
+    // Check if 'genres' exists in the response data
+    if (response.data && Array.isArray(response.data.genres)) {
+      return response.data.genres as MovieGenre[];
+    } else {
+      // Handle the case where 'genres' doesn't exist as expected
+      throw new Error("Unexpected API response format");
+    }
+  } catch (error) {
+    // Handle any errors that may occur during the request
+    throw new Error("Failed to fetch genres");
+  }
+};
