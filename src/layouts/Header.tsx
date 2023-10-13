@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import { Menu } from "lucide-react";
 import { FC } from "react";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface HeaderProps {
   navbar: NavbarInterface[];
@@ -29,7 +30,11 @@ export const Header: FC<HeaderProps> = ({
 }) => {
   return (
     <header className="container">
-      <Accordion type="single" collapsible className="w-full md:flex md:items-center">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full md:flex md:items-center"
+      >
         {/* dekstop and tablet navbar start */}
         <>
           <div className="font-bold text-xl items-center gap-1 hidden md:flex md:basis-1/3">
@@ -55,19 +60,22 @@ export const Header: FC<HeaderProps> = ({
             </div>
             <Separator orientation="vertical" />
             <div className="relative">
-              <span className="absolute text-2xl top-1 z-0">🔍</span>
+              <span className="absolute text-2xl top-1 left-1 z-0">🔍</span>
               <Input
                 type="text"
-                className="w-2 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-48 md:focus:w-64 focus:outline-0 focus:bg-background"
+                className="w-8 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-48 md:focus:w-64 focus:outline-0 focus:bg-background"
                 onChange={(e) => search(e.target.value)}
               />
+            </div>
+            <div className="w-auto">
+              <ModeToggle />
             </div>
           </div>
         </>
 
         {/* dekstop and tablet navbar end */}
         <AccordionItem value="header" className="md:hidden">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="font-bold text-xl items-center gap-1 flex basis-full">
               <span className="bg-foreground p-1.5 rounded text-background">
                 Movies
@@ -75,10 +83,13 @@ export const Header: FC<HeaderProps> = ({
               Hunter
             </div>
             <AccordionTrigger>
-              <Button variant="outline" size="icon">
+              <Button variant="ghost" size="icon">
                 <Menu className="h-4 w-4" />
               </Button>
             </AccordionTrigger>
+            <div className="w-auto">
+              <ModeToggle />
+            </div>
           </div>
 
           <AccordionContent>

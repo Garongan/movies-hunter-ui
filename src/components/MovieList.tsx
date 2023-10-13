@@ -29,7 +29,7 @@ const MovieList: React.FC<MovieListProps> = ({
       movieList.forEach((movie, index) => {
         const timeoutId = setTimeout(() => {
           setRenderedMovies((prevMovies) => [...prevMovies, movie]);
-        }, index * 300);
+        }, index > 12 ? index * 50 : index * 100);
 
         // Clean up the timeout if the component unmounts or the movie list changes
         return () => clearTimeout(timeoutId);

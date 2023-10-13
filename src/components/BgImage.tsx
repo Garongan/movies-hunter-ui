@@ -24,7 +24,7 @@ export const BgImage: FC<BgImageProps> = ({
           }`}
         />
       ) : (
-        <Skeleton className="w-full h-[28rem]" />
+        <Skeleton className="w-full h-[28rem] rounded-none" />
       )}
     </>
   );

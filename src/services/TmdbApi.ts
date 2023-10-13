@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { MovieGenre, MovieInterface } from "./types";
-import { debounce } from "lodash";
 
 const baseURL: string = import.meta.env.VITE_BASE_URL as string;
 const apiKey: string = import.meta.env.VITE_API_KEY as string;
@@ -97,7 +96,7 @@ export const getUpcoming = async (): Promise<MovieInterface[]> => {
   }
 };
 
-const searchMovie = async (query: string): Promise<MovieInterface[]> => {
+export const searchMovie = async (query: string): Promise<MovieInterface[]> => {
   try {
     const response: AxiosResponse = await axios.get(
       `${baseURL}/search/movie?query=${query}`,
@@ -120,7 +119,7 @@ const searchMovie = async (query: string): Promise<MovieInterface[]> => {
   }
 };
 
-export const debounceSearch = debounce(searchMovie, 500);
+
 
 export const getGenres = async (): Promise<MovieGenre[]> => {
   try {
