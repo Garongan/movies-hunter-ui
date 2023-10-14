@@ -64,7 +64,7 @@
   animation: borderAnimation 1s ease infinite; /* Animation properties */
 }
 
-.inset-shadow:focus {
+.inset-shadow {
   box-shadow: inset 5px 5px 10px hsl(var(--muted)),
     inset -5px -5px 10px hsl(var(--background));
 }

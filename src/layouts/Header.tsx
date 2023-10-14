@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { NavbarInterface } from "@/services/types";
 import {
@@ -12,6 +11,7 @@ import {
 import { Menu } from "lucide-react";
 import { FC } from "react";
 import { ModeToggle } from "@/components/ModeToggle";
+import { Search } from "@/components/Search";
 
 interface HeaderProps {
   navbar: NavbarInterface[];
@@ -29,7 +29,7 @@ export const Header: FC<HeaderProps> = ({
   searchValue,
 }) => {
   return (
-    <header className="container">
+    <header className="container text-sm">
       <Accordion
         type="single"
         collapsible
@@ -37,7 +37,7 @@ export const Header: FC<HeaderProps> = ({
       >
         {/* dekstop and tablet navbar start */}
         <>
-          <div className="font-bold text-xl items-center gap-1 hidden md:flex md:basis-1/3">
+          <div className="font-bold items-center gap-1 hidden md:flex md:basis-1/3">
             <span className="bg-foreground p-1.5 rounded text-background">
               Movies
             </span>
@@ -46,7 +46,7 @@ export const Header: FC<HeaderProps> = ({
           <div className="items-center gap-4 h-5 basis-full hidden md:basis-2/3 md:flex md:justify-end">
             <div className="gap-3 flex items-center">
               {titlePage == "Search Results" ? (
-                <div className="text-sm font-medium activeNavbar p-1.5">
+                <div className="font-medium activeNavbar p-1.5">
                   Search Results:{" "}
                   <span className="font-bold">{searchValue}</span>
                 </div>
@@ -59,14 +59,7 @@ export const Header: FC<HeaderProps> = ({
               )}
             </div>
             <Separator orientation="vertical" />
-            <div className="relative">
-              <span className="absolute text-2xl top-1 left-1 z-0">🔍</span>
-              <Input
-                type="text"
-                className="w-8 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-48 md:focus:w-64 focus:outline-0 focus:bg-background"
-                onChange={(e) => search(e.target.value)}
-              />
-            </div>
+            <Search search={search} />
             <div className="w-auto">
               <ModeToggle />
             </div>
@@ -74,7 +67,7 @@ export const Header: FC<HeaderProps> = ({
         </>
 
         {/* dekstop and tablet navbar end */}
-        <AccordionItem value="header" className="md:hidden">
+        <AccordionItem value="header" className="md:hidden w-full">
           <div className="flex items-center gap-4">
             <div className="font-bold text-xl items-center gap-1 flex basis-full">
               <span className="bg-foreground p-1.5 rounded text-background">
@@ -92,11 +85,12 @@ export const Header: FC<HeaderProps> = ({
             </div>
           </div>
 
+          {/* mobile */}
           <AccordionContent>
             <div className="flex items-end flex flex-col gap-3">
               <div className="gap-3 text-right">
                 {titlePage == "Search Results" ? (
-                  <div className="text-sm font-medium activeNavbar p-1.5">
+                  <div className="font-medium activeNavbar p-1.5">
                     Search Results:{" "}
                     <span className="font-bold">{searchValue}</span>
                   </div>
@@ -108,16 +102,10 @@ export const Header: FC<HeaderProps> = ({
                   />
                 )}
               </div>
-              <div className="relative">
-                <span className="absolute text-2xl top-1 right-0 z-0">🔍</span>
-                <Input
-                  type="text"
-                  className="w-2 relative z-10 bg-transparent transition-all text-sm border-0 inset-shadow rounded-lg focus:w-48 md:focus:w-64 focus:outline-0 focus:bg-background"
-                  onChange={(e) => search(e.target.value)}
-                />
-              </div>
+              <Search search={search} />
             </div>
           </AccordionContent>
+          {/* mobile */}
         </AccordionItem>
       </Accordion>
     </header>
