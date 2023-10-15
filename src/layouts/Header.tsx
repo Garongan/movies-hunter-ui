@@ -17,7 +17,7 @@ interface HeaderProps {
   navbar: NavbarInterface[];
   handleTitlePageClick: (name: NavbarInterface["name"]) => void;
   titlePage: string;
-  search: (query: string) => void;
+  search: (query: string) => void
   searchValue: string;
 }
 
@@ -45,17 +45,16 @@ export const Header: FC<HeaderProps> = ({
           </div>
           <div className="items-center gap-4 h-5 basis-full hidden md:basis-2/3 md:flex md:justify-end">
             <div className="gap-3 flex items-center">
-              {titlePage == "Search Results" ? (
+              <Navbar
+                navbar={navbar}
+                onTitlePageClick={handleTitlePageClick}
+                titlePage={titlePage}
+              />
+              {titlePage == "Search Results" && (
                 <div className="font-medium activeNavbar p-1.5">
                   Search Results:{" "}
                   <span className="font-bold">{searchValue}</span>
                 </div>
-              ) : (
-                <Navbar
-                  navbar={navbar}
-                  onTitlePageClick={handleTitlePageClick}
-                  titlePage={titlePage}
-                />
               )}
             </div>
             <Separator orientation="vertical" />
@@ -89,17 +88,16 @@ export const Header: FC<HeaderProps> = ({
           <AccordionContent>
             <div className="flex items-end flex flex-col gap-3">
               <div className="gap-3 text-right">
-                {titlePage == "Search Results" ? (
+                <Navbar
+                  navbar={navbar}
+                  onTitlePageClick={handleTitlePageClick}
+                  titlePage={titlePage}
+                />
+                {titlePage == "Search Results" && (
                   <div className="font-medium activeNavbar p-1.5">
                     Search Results:{" "}
                     <span className="font-bold">{searchValue}</span>
                   </div>
-                ) : (
-                  <Navbar
-                    navbar={navbar}
-                    onTitlePageClick={handleTitlePageClick}
-                    titlePage={titlePage}
-                  />
                 )}
               </div>
               <Search search={search} />

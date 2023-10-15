@@ -1,12 +1,12 @@
+import { FC, FormEvent, useState } from "react";
+import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { FC, FormEvent, useEffect, useState } from "react";
-import { SearchIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 interface SearchProps {
-  search: (query: string) => void;
+  search: (query: string) => void
 }
 
 export const Search: FC<SearchProps> = ({ search }) => {
@@ -15,14 +15,12 @@ export const Search: FC<SearchProps> = ({ search }) => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    search(searchInput);
-    setPrevSearchInputs((prevInputs) => [...prevInputs, searchInput]);
-    setSearchInput("");
+    if (searchInput.length > 3) {
+      search(searchInput);
+      setPrevSearchInputs((prevInputs) => [...prevInputs, searchInput]);
+      setSearchInput("");
+    }
   };
-
-  useEffect(() => {
-    console.log("Previous Search Inputs:", prevSearchInputs);
-  }, [prevSearchInputs]);
 
   return (
     <Dialog>
@@ -48,14 +46,20 @@ export const Search: FC<SearchProps> = ({ search }) => {
             Search
           </Button>
         </form>
+        {searchInput.length < 3 && (
+          <div className="text-center font-light text-sm">
+            Search input must be more than 3 characters
+          </div>
+        )}
         <Separator orientation="horizontal" />
         {prevSearchInputs.map((item, index) => (
-          <div
+          <button
             key={index}
             className="hover:bg-foreground/50 rounded-lg py-2 px-5 flex items-center"
+            onClick={() => search(item)}
           >
             <SearchIcon className="mr-2 h-4 w-4 shrink-0" /> {item}
-          </div>
+          </button>
         ))}
       </DialogContent>
     </Dialog>

@@ -4,8 +4,16 @@ import MovieDetails from "@/components/MovieDetails";
 import MovieList from "@/components/MovieList";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Header } from "@/layouts/Header";
-import { getGenres, getNowPlaying, getPopular, getTopRated, getUpcoming, searchMovie } from "@/services/TmdbApi";
+import {
+  getGenres,
+  getNowPlaying,
+  getPopular,
+  getTopRated,
+  getUpcoming,
+  searchMovie,
+} from "@/services/TmdbApi";
 import { MovieGenre, MovieInterface } from "@/services/types";
+import { debounce } from "lodash";
 import { FC, useEffect, useState } from "react";
 
 const HomePage: FC = () => {
@@ -52,10 +60,14 @@ const HomePage: FC = () => {
     });
   }, [titlePage]);
 
+  const debouncedSetMovieList = debounce((newMovieList) => {
+    setMovieList(newMovieList);
+  }, 500);
+
   const search = async (query: string) => {
     if (query.length > 3) {
       const searchResults = await searchMovie(query);
-      setMovieList(searchResults);
+      debouncedSetMovieList(searchResults);
       setTitlePage("Search Results");
       setSearchValue(query);
       handleDefaultBackdrop(searchResults[0].backdrop_path);
