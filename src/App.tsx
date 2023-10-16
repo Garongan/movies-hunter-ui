@@ -1,13 +1,19 @@
 import HomePage from "./pages/HomePage";
 import "./App.css";
 import { ThemeProvider } from "./components/theme-provider";
+import { Fragment } from "react";
+import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <HomePage/>
-    </ThemeProvider>
-  )
+    <Fragment>
+      <BrowserRouter basename="/">
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+          <HomePage />
+        </ThemeProvider>
+      </BrowserRouter>
+    </Fragment>
+  );
 };
 
 export default App;
