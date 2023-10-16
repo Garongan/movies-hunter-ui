@@ -19,12 +19,12 @@ export const BgImage: FC<BgImageProps> = ({
           src={backdropSrc}
           alt="Background"
           onLoad={handleImageLoad}
-          className={`w-full h-[28rem] object-cover ${
+          className={`w-full h-[32rem] object-cover ${
             isImageLoaded ? "fadeIn" : ""
           }`}
         />
       ) : (
-        <Skeleton className="w-full h-[28rem] rounded-none" />
+        <Skeleton className="w-full h-[32rem] rounded-none" />
       )}
     </>
   );

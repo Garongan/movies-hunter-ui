@@ -105,7 +105,7 @@ const HomePage: FC = () => {
 
   const getBackdropSrc = () => {
     if (posterBG == null) return "public/3747372.jpg";
-    else return `https://image.tmdb.org/t/p/original${posterBG}`;
+    else return `https://image.tmdb.org/t/p/w1280${posterBG}`;
   };
 
   const backdropSrc: string = getBackdropSrc();
