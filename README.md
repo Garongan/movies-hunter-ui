@@ -15,7 +15,7 @@ Movies Hunter UI is a web application that allows you to search for movies and a
 
 ## Demo
 
-You can try out Movies Hunter UI by visiting [Demo Link](https://garongan.github.io/movies-hunter-ui).
+You can try out Movies Hunter UI by visiting [Demo Link](https://movies-hunter-ui.vercel.app).
 
 # React + TypeScript + Vite
 
