@@ -35,7 +35,7 @@ const MovieList: React.FC<MovieListProps> = ({
         return () => clearTimeout(timeoutId);
       });
     };
-
+    
     const debouncedRenderMovies = debounce(renderMoviesWithDelay, 500);
 
     // Call the debounced function when the component mounts or movieList changes

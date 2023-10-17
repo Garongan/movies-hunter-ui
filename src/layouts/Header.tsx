@@ -33,17 +33,17 @@ export const Header: FC<HeaderProps> = ({
       <Accordion
         type="single"
         collapsible
-        className="w-full md:flex md:items-center"
+        className="w-full lg:flex lg:items-center"
       >
         {/* dekstop and tablet navbar start */}
         <>
-          <div className="font-bold items-center gap-1 hidden md:flex md:basis-1/3">
+          <div className="font-bold items-center gap-1 hidden lg:flex lg:basis-1/12">
             <span className="bg-foreground p-1.5 rounded text-background">
               Movies
             </span>
             Hunter
           </div>
-          <div className="items-center gap-4 h-5 basis-full hidden md:basis-2/3 md:flex md:justify-end">
+          <div className="items-center gap-4 h-5 basis-full hidden lg:basis-11/12 lg:flex lg:justify-end">
             <div className="gap-3 flex items-center">
               <Navbar
                 navbar={navbar}
@@ -66,7 +66,7 @@ export const Header: FC<HeaderProps> = ({
         </>
 
         {/* dekstop and tablet navbar end */}
-        <AccordionItem value="header" className="md:hidden w-full">
+        <AccordionItem value="header" className="lg:hidden w-full">
           <div className="flex items-center gap-4">
             <div className="font-bold text-xl items-center gap-1 flex basis-full">
               <span className="bg-foreground p-1.5 rounded text-background">

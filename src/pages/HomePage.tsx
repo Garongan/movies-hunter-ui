@@ -26,7 +26,7 @@ const HomePage: FC = () => {
     { name: "Upcoming" },
   ];
   const [posterBG, setPosterBg] = useState<string>("");
-  const [isImageLoaded, setIsImageLoaded] = useState(false); // State variable to track loading state
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [activePoster, setActivePoster] = useState<number>(0);
   const [titlePage, setTitlePage] = useState<string>("Now Playing");
   const [searchValue, setSearchValue] = useState<string>("");
@@ -52,6 +52,7 @@ const HomePage: FC = () => {
       default:
         getNowPlaying().then((result: MovieInterface[]) => {
           setMovieList(result);
+          setPosterBg(result[0].backdrop_path);
         });
         break;
     }
@@ -91,16 +92,12 @@ const HomePage: FC = () => {
     }, 500);
   };
 
-  const handleImageLoad = () => {
-    setIsImageLoaded(true);
+  const handleImageLoad = (value: boolean) => {
+    setIsImageLoaded(value);
   };
 
   const handleDefaultBackdrop = (backdrop_path: string) => {
-    setIsImageLoaded(false);
     setPosterBg(backdrop_path);
-    setTimeout(() => {
-      setIsImageLoaded(true);
-    }, 500);
   };
 
   const getBackdropSrc = () => {

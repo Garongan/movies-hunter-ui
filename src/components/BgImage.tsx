@@ -1,9 +1,9 @@
-import { FC, ReactEventHandler } from "react";
+import { FC, useEffect } from "react";
 import { Skeleton } from "./ui/skeleton";
 
 interface BgImageProps {
   backdropSrc: string;
-  handleImageLoad: ReactEventHandler<HTMLImageElement>;
+  handleImageLoad: (value: boolean) => void;
   isImageLoaded: boolean;
 }
 
@@ -12,15 +12,34 @@ export const BgImage: FC<BgImageProps> = ({
   handleImageLoad,
   isImageLoaded,
 }) => {
+  useEffect(() => {
+    const image = new Image();
+    image.src = backdropSrc;
+
+    image.onload = () => {
+      handleImageLoad(true);
+    };
+
+    image.onerror = () => {
+      handleImageLoad(false);
+      // Handle error if the image fails to load
+    };
+
+    // Cleanup event listeners when the component is unmounted
+    return () => {
+      image.onload = null;
+      image.onerror = null;
+    };
+  }, [backdropSrc, handleImageLoad]);
+
   return (
     <>
       {isImageLoaded ? (
         <img
           src={backdropSrc}
           alt="Background"
-          onLoad={handleImageLoad}
           className={`w-full h-[32rem] object-cover ${
-            isImageLoaded ? "fadeIn" : ""
+            isImageLoaded && "fadeIn"
           }`}
         />
       ) : (
