@@ -4,10 +4,9 @@ Movies Hunter UI is a web application that allows you to search for movies and a
 
 # Screenshot
 
-![Movies Hunter UI Screenshot]
-(imgMobile.png)
-(imgTablet.png)
-(imgDekstop.png)
+![Movies Hunter UI Screenshot](imgDekstop.webp)
+![Movies Hunter UI Screenshot](imgTablet.webp)
+![Movies Hunter UI Screenshot](imgMobile.webp)
 
 ## Features
 
