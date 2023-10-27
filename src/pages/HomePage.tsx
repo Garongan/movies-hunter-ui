@@ -34,25 +34,36 @@ const HomePage: FC = () => {
   useEffect(() => {
     switch (titlePage) {
       case "Popular":
+        setIsImageLoaded(false);
         getPopular().then((result: MovieInterface[]) => {
           setMovieList(result);
+          setPosterBg(result[0].backdrop_path);
+          setIsImageLoaded(true);
         });
         break;
       case "Top Rated":
+        setIsImageLoaded(false);
         getTopRated().then((result: MovieInterface[]) => {
           setMovieList(result);
+          setPosterBg(result[0].backdrop_path);
+          setIsImageLoaded(true);
         });
         break;
       case "Upcoming":
+        setIsImageLoaded(false);
         getUpcoming().then((result: MovieInterface[]) => {
           setMovieList(result);
+          setPosterBg(result[0].backdrop_path);
+          setIsImageLoaded(true);
         });
         break;
 
       default:
+        setIsImageLoaded(false);
         getNowPlaying().then((result: MovieInterface[]) => {
           setMovieList(result);
           setPosterBg(result[0].backdrop_path);
+          setIsImageLoaded(true);
         });
         break;
     }
@@ -71,7 +82,7 @@ const HomePage: FC = () => {
       debouncedSetMovieList(searchResults);
       setTitlePage("Search Results");
       setSearchValue(query);
-      handleDefaultBackdrop(searchResults[0].backdrop_path);
+      setPosterBg(searchResults[0].backdrop_path);
     }
   };
 
@@ -96,9 +107,6 @@ const HomePage: FC = () => {
     setIsImageLoaded(value);
   };
 
-  const handleDefaultBackdrop = (backdrop_path: string) => {
-    setPosterBg(backdrop_path);
-  };
 
   const getBackdropSrc = () => {
     if (posterBG == null) return "public/3747372.jpg";
@@ -147,7 +155,6 @@ const HomePage: FC = () => {
               movieList={movieList}
               onImageClick={handleImageClick}
               activePoster={activePoster}
-              setDefaultBackdrop={handleDefaultBackdrop}
             />
             <ScrollBar orientation="horizontal" />
           </ScrollArea>

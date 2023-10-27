@@ -26,7 +26,7 @@ export const Search: FC<SearchProps> = ({ search }) => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="inset-shadow h-10 px-4 py-2 rounded-lg">
-          Search Movie...
+          Search Movies...
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

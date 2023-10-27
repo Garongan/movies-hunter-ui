@@ -26,10 +26,9 @@ export const Header: FC<HeaderProps> = ({
   handleTitlePageClick,
   titlePage,
   search,
-  searchValue,
 }) => {
   return (
-    <header className="container text-sm">
+    <header className="container">
       <Accordion
         type="single"
         collapsible
@@ -37,7 +36,7 @@ export const Header: FC<HeaderProps> = ({
       >
         {/* dekstop and tablet navbar start */}
         <>
-          <div className="font-bold items-center gap-1 hidden lg:flex lg:basis-1/12">
+          <div className="font-bold lg:text-xl text-md items-center gap-1 hidden lg:flex lg:basis-1/12">
             <span className="bg-foreground p-1.5 rounded text-background">
               Movies
             </span>
@@ -50,12 +49,6 @@ export const Header: FC<HeaderProps> = ({
                 onTitlePageClick={handleTitlePageClick}
                 titlePage={titlePage}
               />
-              {titlePage == "Search Results" && (
-                <div className="font-medium activeNavbar p-1.5">
-                  Search Results:{" "}
-                  <span className="font-bold">{searchValue}</span>
-                </div>
-              )}
             </div>
             <Separator orientation="vertical" />
             <Search search={search} />
@@ -86,19 +79,13 @@ export const Header: FC<HeaderProps> = ({
 
           {/* mobile */}
           <AccordionContent>
-            <div className="flex items-end flex flex-col gap-3">
+            <div className="items-end flex flex-col gap-3">
               <div className="gap-3 text-right">
                 <Navbar
                   navbar={navbar}
                   onTitlePageClick={handleTitlePageClick}
                   titlePage={titlePage}
                 />
-                {titlePage == "Search Results" && (
-                  <div className="font-medium activeNavbar p-1.5">
-                    Search Results:{" "}
-                    <span className="font-bold">{searchValue}</span>
-                  </div>
-                )}
               </div>
               <Search search={search} />
             </div>
