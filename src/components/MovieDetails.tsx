@@ -18,7 +18,7 @@ const MovieDetails: FC<MovieDetailsProps> = ({ filteredMovie }) => {
     filteredMovie && filteredMovie.length > 0 ? filteredMovie[0] : undefined;
 
   return (
-    <Card className="max-w-full my-3 rounded-lg bg-background shadow-xl dark:shadow-lg-dark">
+    <Card className="max-w-full my-3 rounded-lg bg-background shadow-lg dark:shadow-lg-dark">
       {movie ? (
         <>
           <CardHeader>

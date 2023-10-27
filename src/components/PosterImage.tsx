@@ -29,7 +29,7 @@ const PosterImage: FC<PosterImageProps> = ({
   const delayImage = (index: number) => {
     setTimeout(() => {
       setIsPosterShow(true);
-    }, index * 300);
+    }, index * 150);
   };
 
   delayImage(index);

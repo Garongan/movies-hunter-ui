@@ -13,8 +13,8 @@ import {
   searchMovie,
 } from "@/services/TmdbApi";
 import { MovieGenre, MovieInterface } from "@/services/types";
-import { debounce } from "lodash";
 import { FC, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const HomePage: FC = () => {
   const [movieList, setMovieList] = useState<MovieInterface[]>([]);
@@ -72,14 +72,10 @@ const HomePage: FC = () => {
     });
   }, [titlePage]);
 
-  const debouncedSetMovieList = debounce((newMovieList) => {
-    setMovieList(newMovieList);
-  }, 500);
-
   const search = async (query: string) => {
     if (query.length > 3) {
       const searchResults = await searchMovie(query);
-      debouncedSetMovieList(searchResults);
+      setMovieList(searchResults);
       setTitlePage("Search Results");
       setSearchValue(query);
       setPosterBg(searchResults[0].backdrop_path);
@@ -107,7 +103,6 @@ const HomePage: FC = () => {
     setIsImageLoaded(value);
   };
 
-
   const getBackdropSrc = () => {
     if (posterBG == null) return "public/3747372.jpg";
     else return `https://image.tmdb.org/t/p/w1280${posterBG}`;
@@ -127,10 +122,15 @@ const HomePage: FC = () => {
     // You might want to handle the case where foundMovie is undefined (no movie found) here
   }
 
+  const [refDetails, inViewDetails] = useInView({
+    triggerOnce: true, // Animation will trigger only once
+    threshold: 0.5, // Triggers the animation when 10% of the component is visible
+  });
+
   return (
     <>
       {/* header start */}
-      <div className="py-6 bg-background shadow-xl dark:shadow-lg-dark relative z-10">
+      <div className="bg-background shadow-xl dark:shadow-lg-dark">
         <Header
           navbar={navbar}
           handleTitlePageClick={handleTitlePageClick}
@@ -140,42 +140,52 @@ const HomePage: FC = () => {
         />
       </div>
       {/* header end */}
-      <div className="relative">
-        {/* backdrop start */}
-        <BgImage
-          backdropSrc={backdropSrc}
-          handleImageLoad={handleImageLoad}
-          isImageLoaded={isImageLoaded}
-        />
-        {/* backdrop end */}
-        <div className="absolute py-6 -bottom-28 inset-x-0 container">
-          {/* movie list start */}
-          <ScrollArea className="bg-background rounded-lg px-4 shadow-xl dark:shadow-lg-dark">
-            <MovieList
-              movieList={movieList}
-              onImageClick={handleImageClick}
-              activePoster={activePoster}
-            />
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-          {/* movie list end */}
-        </div>
-      </div>
-      {/* movie details-start */}
-      <div className="container pt-28">
+
+      {/* backdrop start */}
+      <BgImage
+        backdropSrc={backdropSrc}
+        handleImageLoad={handleImageLoad}
+        isImageLoaded={isImageLoaded}
+      />
+      {/* backdrop end */}
+
+      <section
+        ref={refDetails}
+        className={`${
+          inViewDetails ? "animate__fadeInUp" : "opacity-0"
+        } transition-all container max-h-screen`}
+      >
+        {/* movie list start */}
+        {inViewDetails && (
+          <div className="py-6">
+            <ScrollArea className="bg-background rounded-lg px-4 shadow-xl dark:shadow-lg-dark">
+              <MovieList
+                movieList={movieList}
+                onImageClick={handleImageClick}
+                activePoster={activePoster}
+              />
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+        )}
+        {/* movie list end */}
+
+        {/* movie details-start */}
         <MovieDetails filteredMovie={filteredMovie} />
-      </div>
-      {/* movie details-end */}
-      {/* genres start */}
-      <div className="container py-6 flex flex-wrap justify-center gap-4">
-        <Genres genres={genres} filteredMovie={filteredMovie} />
-      </div>
-      {/* genres end */}
-      {/* footer start */}
-      <footer className="py-6 text-center bg-foreground text-background font-medium">
-        Created By Alvindo Tri Jatmiko @2023
-      </footer>
-      {/* footer end */}
+        {/* movie details-end */}
+
+        {/* genres start */}
+        <div className="py-6 flex flex-wrap justify-center gap-4">
+          <Genres genres={genres} filteredMovie={filteredMovie} />
+        </div>
+        {/* genres end */}
+
+        {/* footer start */}
+        <footer className="py-6 text-center font-medium border-t-2">
+          Created By Alvindo Tri Jatmiko @2023
+        </footer>
+        {/* footer end */}
+      </section>
     </>
   );
 };

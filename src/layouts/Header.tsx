@@ -36,7 +36,7 @@ export const Header: FC<HeaderProps> = ({
       >
         {/* dekstop and tablet navbar start */}
         <>
-          <div className="font-bold lg:text-xl text-md items-center gap-1 hidden lg:flex lg:basis-1/12">
+          <div className="font-bold text-xl items-center gap-1 hidden lg:flex lg:basis-1/12 bg-background shadow-xl dark:shadow-lg-dark sticky top-0 z-10 py-4">
             <span className="bg-foreground p-1.5 rounded text-background">
               Movies
             </span>
