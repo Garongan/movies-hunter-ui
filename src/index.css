@@ -4,6 +4,11 @@
 
 @layer base {
   :root {
+    /* 
+    * custom color for theme
+    * change the value of color by using hsl format
+    * use the pattern
+     */
     --background: 90 25% 98%; /* Baby powder */
     --foreground: 204 24% 4%; /* Night */
 
@@ -16,6 +21,7 @@
     --radius: 0.5rem;
   }
 
+  /* customize color when the app is dark mode */
   .dark {
     --background: 204 24% 4%;
     --foreground: 90 25% 98%;
